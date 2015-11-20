@@ -1,5 +1,5 @@
 module.exports = {
-  class Monad {
+ass Monad {
     constructor(z) {
 
       this.x = z;
