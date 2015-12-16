@@ -161,3 +161,28 @@ module.exports = {
       }
     }}
 
+  class MonadFork {
+    constructor(z) {
+
+      this.x = z;
+
+      this.bnd = (func, skip, ...args) => {
+        if (skip) {return this};
+        return func(this.x, this, ...args);
+      };
+
+      this.ret = (a,skip) => {
+        if (skip) {return this};
+        this.x = a;
+        return this;
+      };
+
+      this.fmap = (f, mon = this, skip, ...args) => {      
+        if (skip) {return this};
+        mon.ret( f(mon.x, ...args ));
+        return mon;
+
+      };
+    }
+  };
+   

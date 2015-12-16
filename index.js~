@@ -87,3 +87,77 @@ module.exports = {
   };
 
 
+  class MonadIter {
+    constructor(z,g) {
+
+      this.x = z;
+      this.id = g;
+      this.flag = false;
+      this.p = [];
+
+      this.block = () => {
+        this.flag = true;
+        return this;
+        }
+
+      this.release = () => {
+        let self = this;
+        let p = this.p;
+
+        if (p[1] === 'bnd') {
+          p[2](self.x, self, ...p[3]);
+          self.flag = false;
+          return self;
+        }
+
+        if (p[1] === 'ret') {
+          self.x = p[2];
+          self.flag = false;
+          return self;
+        }
+
+        if (p[1] === 'fmap') { 
+          p[3].ret(p[2](p[3].x, ...p[4]));
+          self.flag = false;
+          return p[3];
+        }
+     }
+
+      this.bnd = (func, ...args) => {
+        let self = this;
+        if (self.flag === false) {
+          func(self.x, self, ...args);
+          return self;
+        }
+        if (self.flag === true) {
+          self.p = [self.id, 'bnd', func, args];
+          return self;
+        }
+      }
+
+      this.fmap = (f, mon = this, ...args) => {   
+        let self = this;
+          if (self.flag === false) {
+            mon.ret(f(mon.x,  ...args));
+            return mon;
+          }
+          if (self.flag === true) {
+            self.p = [self.id, 'fmap', f, mon, args];
+            return self;
+          }
+      }
+
+      this.ret = a => { 
+        let self = this;
+          if (self.flag === false) {
+            self.x = a;
+          }
+          if (self.flag === true) {
+          self.p = [self.id, 'ret', a];
+          return self;
+          }
+        this.flag = false;
+        return this;
+      }
+    }}
+
