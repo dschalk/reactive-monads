@@ -1,0 +1,19 @@
+{
+  "name": "reactive-monads",
+  "version": "0.8.0",
+  "description": "This package was published during the early stages of an investigation. I would remove it, but people have downloaded it and I don't want to pull the rug out from under any applications that are somehow using it.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dschalk/reactive-monads.git"
+  },
+  "author": "David Schalk <davidschalk42@gmail.com> (https://github.com/dschalk)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dschalk/reactive-monads/issues"
+  },
+  "homepage": "https://github.com/dschalk/reactive-monads#readme"
+}
